@@ -1,53 +1,51 @@
 using System.Collections;
+using RPSharp.Entities.Items;
 
-namespace src
+namespace RPSharp.Entities;
+
+public class Player : Entity
 {
-    public class Player : Entity
+    protected ArrayList Inventory;
+    protected bool IsDefending;
+
+    public Player(string name, int health, int damage, int defense) 
+        : base(name, health, damage, defense)
     {
-        private ArrayList Inventory;
-        private Boolean IsDefending { get; set; }
+        this.Name = name;
+        this.Health = health;
+        this.Damage = damage;
+        this.Defense = defense;
+        this.Inventory = new ArrayList();
 
-        public Player(string name, int health, int damage, int defense) 
-            : base(name, health, damage, defense)
+        Item potion = new("potion", 10);
+        Inventory.Add(potion);
+    }
+
+    public void Defend()
+    {
+        if (!IsDefending)
         {
-            this.Name = name;
-            this.Health = health;
-            this.Damage = damage;
-            this.Defense = defense;
-            this.Inventory = new ArrayList();
-
-            Item potion = new("potion", 10);
-            Inventory.Add(potion);
+            Defense += 2;
         }
+    }
 
-        public void Defend()
+    public void UsePotion()
+    {
+        foreach (Item item in Inventory)
         {
-            if (!IsDefending)
+            if (item.Type != "potion") continue;
+            if (Health + item.Value >= 50) 
             {
-                Defense += 2;
+                Health = 50;
+                return; 
             }
+            Health += item.Value;
         }
+    }
 
-        public void UsePotion()
-        {
-            foreach (Item item in Inventory)
-            {
-                if (item.Type == "potion")
-                {
-                    if (Health + item.Value >= 100) 
-                    {
-                        Health = 100;
-                        return; 
-                    }
-                    Health += item.Value;
-                }
-            }
-        }
-
-        public void AddItemToInventory(string type, int value)
-        {
-            Item item = new Item(type, value);
-            this.Inventory.Add(item);
-        }
+    public void AddItemToInventory(string type, int value)
+    {
+        Item item = new Item(type, value);
+        this.Inventory.Add(item);
     }
 }

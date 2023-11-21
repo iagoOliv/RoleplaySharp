@@ -1,15 +1,15 @@
-namespace src
+namespace RPSharp.Entities;
+
+public class Enemy : Entity
 {
-    public class Enemy : Entity
+    public Enemy(string name, int health, int damage, int defense) 
+        : base(name, health, damage, defense)
     {
-        public Enemy(string name, int health, int damage, int defense) 
-            : base(name, health, damage, defense)
-        {
-            this.Name = name;
-            this.Health = health;
-            this.Damage = damage;
-            this.Defense = defense;
-        }
+        this.Name = name;
+        this.Health = health;
+        this.Damage = damage;
+        this.Defense = defense;
     }
 }
+
 
